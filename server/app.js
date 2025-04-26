@@ -41,8 +41,8 @@ app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/blog", blogRoute);
 app.use("/api/v1/comment", commentRoute);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log("Server in running on -> ");
-  console.log(`http://localhost:${PORT}`);
+  // console.log("Server in running on -> ");
+  // console.log(`http://localhost:${PORT}`);
 });

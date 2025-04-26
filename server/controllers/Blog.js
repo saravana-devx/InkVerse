@@ -223,7 +223,7 @@ exports.deleteBlog = async (req, res) => {
     const userId = req.user.id;
     const blogId = req.params.blogId;
     const user = await User.findById(userId);
-    console.log("blogId to delete -> ", blogId);
+    // console.log("blogId to delete -> ", blogId);
     if (!user.blogs.includes(blogId)) {
       return res.status(404).json({
         success: false,
