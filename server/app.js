@@ -19,10 +19,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+const allowedOrigins = process.env.NODE_ENV === 'production' ? [process.env.Production_url] : ['http://localhost:3000'];   
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true
+    origin: allowedOrigins,   
+    credentials: true        
   })
 );
 
