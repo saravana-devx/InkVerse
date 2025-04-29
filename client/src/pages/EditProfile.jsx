@@ -78,10 +78,8 @@ const EditProfile = () => {
       toast("Profile updated successfully!");
       setOriginalData(updatedData);
       dispatch(updateUserDetails(updatedData));
-
       navigate("/profile");
     } catch (error) {
-      // console.error("Error updating profile:", error);
       toast("Failed to update profile.");
     } finally {
       setLoading(false);
@@ -91,18 +89,19 @@ const EditProfile = () => {
   return (
     <>
       <Navbar />
-      <div className="w-4/5 max-w-screen-xl mx-auto mt-14 h-auto">
-        <p className="text-4xl font-semibold text-center">Welcome</p>
-        <p className="mt-2 text-gray-600 text-center">
+      <div className="w-11/12 max-w-screen-xl mx-auto mt-14 px-4">
+        <p className="text-3xl sm:text-4xl font-semibold text-center">Edit Profile</p>
+        <p className="mt-2 text-gray-600 text-center text-sm sm:text-base">
           {new Date().toDateString()}
         </p>
 
-        <div className="bg-gray-100 my-4 p-8 rounded-lg shadow-lg">
-          <div className="flex items-center gap-x-5">
+        <div className="bg-gray-100 my-6 p-4 sm:p-8 rounded-lg shadow-lg">
+          {/* Header Info Section */}
+          <div className="flex flex-col sm:flex-row items-center gap-6">
             <div className="relative">
               <img
                 src={previewImage}
-                className="object-contain w-32 h-32 rounded-full border-2 border-stone-400"
+                className="object-cover w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-stone-400"
                 alt="Profile"
               />
               <input
@@ -113,30 +112,35 @@ const EditProfile = () => {
                 disabled={loading}
               />
             </div>
-            <div className="flex-1 flex justify-between items-center">
-              <div>
-                <p className="text-4xl mb-2 font-medium text-indigo-500">
+
+            <div className="flex-1 w-full flex flex-col sm:flex-row sm:items-center justify-between">
+              <div className="text-center sm:text-left">
+                <p className="text-2xl sm:text-3xl font-medium text-indigo-500">
                   {`${formData?.firstName} ${formData?.lastName}` || "User"}
                 </p>
-                <p className="text-lg text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600">
                   {formData?.email || "No email provided"}
                 </p>
               </div>
+
+              <div className="mt-4 sm:mt-0 sm:ml-4 text-center sm:text-right">
+                <button
+                  onClick={handleSaveClick}
+                  disabled={loading || !isDataChanged()}
+                  className="w-full sm:w-auto px-5 py-2 text-sm sm:text-base text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg disabled:opacity-50"
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
-            <button
-              onClick={handleSaveClick}
-              disabled={loading || !isDataChanged()}
-              className="px-6 py-2 text-lg text-white rounded-lg transition duration-300 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50"
-            >
-              Save Changes
-            </button>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-x-12 text-lg">
+          {/* Form Grid */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-y-4 sm:gap-y-6 sm:gap-x-12 text-sm sm:text-base">
             {["firstName", "lastName", "gender", "country", "email"].map(
               (field) => (
                 <div key={field}>
-                  <p className="text-gray-700 capitalize">
+                  <p className="text-gray-700 capitalize mb-1">
                     {field.replace(/([A-Z])/g, " $1")}
                   </p>
                   <input
@@ -144,7 +148,7 @@ const EditProfile = () => {
                     name={field}
                     value={formData?.[field] || ""}
                     placeholder={`Enter ${field}`}
-                    className="w-full border rounded-md px-4 py-2 focus:outline-none border-indigo-500"
+                    className="w-full border rounded-md px-4 py-2 focus:outline-none border-indigo-500 bg-white"
                     onChange={handleChange}
                     disabled={loading}
                   />

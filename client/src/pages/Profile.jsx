@@ -7,12 +7,13 @@ import { FaUser } from "react-icons/fa";
 
 const ProfileField = ({ label, value }) => (
   <div>
-    <p className="text-gray-700 capitalize">{label}</p>
-    <p className="w-full border rounded-md px-4 py-2 bg-gray-100">
+    <p className="text-gray-700 capitalize text-sm sm:text-base">{label}</p>
+    <p className="w-full border rounded-md px-4 py-2 bg-gray-100 text-sm sm:text-base">
       {value || "-"}
     </p>
   </div>
 );
+
 const Profile = () => {
   const { user } = useSelector((state) => state.auth) || {};
   const navigate = useNavigate();
@@ -26,46 +27,52 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="w-4/5 max-w-screen-xl mx-auto mt-14 h-auto">
-        <p className="text-4xl font-semibold text-center">Welcome</p>
-        <p className="mt-2 text-gray-600 text-center">
+      <div className="w-11/12 max-w-screen-xl mx-auto mt-12 sm:mt-16 px-4">
+        <p className="text-3xl sm:text-4xl font-semibold text-center">Welcome</p>
+        <p className="mt-2 text-gray-600 text-center text-sm sm:text-base">
           {new Date().toDateString()}
         </p>
 
-        <div className="bg-gray-100 my-4 p-8 rounded-lg shadow-lg">
-          <div className="flex items-center gap-x-5">
+        <div className="bg-gray-100 mt-6 sm:mt-10 p-4 sm:p-8 rounded-lg shadow-lg">
+          {/* Profile Header */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-x-8">
             <div className="relative">
               {user?.image ? (
                 <img
                   src={user.image}
-                  className="object-contain w-32 h-32 rounded-full border-2 border-stone-400"
+                  className="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-full border-2 border-stone-400"
                   alt="Profile"
                 />
               ) : (
-                <div className="w-32 h-32 rounded-full border-2 border-stone-400 bg-slate-200 flex items-center justify-center">
-                  <FaUser className="text-indigo-500 text-5xl" />
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-stone-400 bg-slate-200 flex items-center justify-center">
+                  <FaUser className="text-indigo-500 text-4xl sm:text-5xl" />
                 </div>
               )}
             </div>
-            <div className="flex-1 flex justify-between items-center">
-              <div>
-                <p className="text-4xl mb-2 font-medium text-indigo-500">
+
+            <div className="flex-1 w-full flex flex-col sm:flex-row sm:items-center justify-between">
+              <div className="text-center sm:text-left">
+                <p className="text-2xl sm:text-4xl font-medium text-indigo-500">
                   {`${user?.firstName || ""} ${user?.lastName || ""}` || "User"}
                 </p>
-                <p className="text-lg text-gray-600">
+                <p className="text-sm sm:text-lg text-gray-600 break-words">
                   {user?.email || "No email provided"}
                 </p>
               </div>
+
+              <div className="mt-4 sm:mt-0 sm:ml-4">
+                <Link
+                  to="/edit-profile"
+                  className="inline-block px-5 sm:px-6 py-2 text-sm sm:text-base text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 transition duration-300"
+                >
+                  Edit Profile
+                </Link>
+              </div>
             </div>
-            <Link
-              to="/edit-profile"
-              className="px-6 text-lg text-white py-2 border-2 bg-indigo-500 rounded-lg hover:bg-indigo-600 transition duration-300"
-            >
-              Edit Profile
-            </Link>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-x-12 text-lg">
+          {/* Info Grid */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-y-4 sm:gap-y-6 sm:gap-x-12 text-base">
             <ProfileField label="First Name" value={user?.firstName} />
             <ProfileField label="Last Name" value={user?.lastName} />
             <ProfileField label="Gender" value={user?.gender} />
@@ -73,10 +80,11 @@ const Profile = () => {
             <ProfileField label="Email" value={user?.email} />
           </div>
 
-          <div className="mt-16">
+          {/* Dashboard Link */}
+          <div className="mt-12 text-center">
             <Link
               to="/dashboard"
-              className="px-6 text-lg text-white py-2 border-2 bg-indigo-500 rounded-lg hover:bg-indigo-600 transition duration-300"
+              className="inline-block px-6 py-2 text-sm sm:text-base text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 transition duration-300"
             >
               Go To Dashboard
             </Link>

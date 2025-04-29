@@ -16,27 +16,26 @@ export default function BlogPost() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const slug = searchParams.get("blog-title");
-  // Example of a frontend API call to fetch a blog by its ID
+
   const fetchBlog = async (id) => {
     const response = await axios.get(`${BaseUrl}/blog/blogId/${slug}`);
     return response.data.blog;
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const blogData = await fetchBlog(slug);
       setBlog(blogData);
     };
-
     fetchData();
   }, [slug]);
 
   useEffect(() => {
     if (blog) {
-      // Initialize EditorJS with the fetched blog content (if available)
       const editor = new EditorJS({
-        holder: "editorjs", // The element where the content will be rendered
-        data: blog.content, // The content retrieved from the backend (in JSON format)
-        readOnly: true, // Make the editor read-only for displaying only
+        holder: "editorjs",
+        data: blog.content,
+        readOnly: true,
         tools: {
           header: Header,
           paragraph: Paragraph,
@@ -48,31 +47,39 @@ export default function BlogPost() {
     }
   }, [blog]);
 
-  if (!blog) return <div>Loading...</div>;
-  const token = localStorage.getItem("user");
+  if (!blog) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <>
       <Navbar />
-      <div className="p-6 max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">{blog.title}</h1>
-        <p className="text-lg mb-4">{blog.description}</p>
+      <div className="px-4 py-6 w-full max-w-4xl mx-auto">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4">{blog.title}</h1>
+        <p className="text-base sm:text-lg text-gray-700 mb-4">{blog.description}</p>
 
-        <div className="mt-4">
+        <div className="mt-2 mb-4 flex flex-wrap gap-2">
           {blog.tags.map((tag, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 bg-gray-200 rounded-full mr-2"
-            >
+            <span key={index} className="px-3 py-1 bg-gray-200 rounded-full text-sm">
               {tag}
             </span>
           ))}
         </div>
-        <div className="text-gray-600 text-lg font-medium my-4">
-          👁️Total views : {blog.totalViews}
+
+        <div className="text-gray-600 text-sm sm:text-base font-medium my-4">
+          👁️ Total views: {blog.totalViews}
         </div>
+
         {blog.thumbnail && (
-          <img src={blog.thumbnail} className="my-8" alt="Blog Thumbnail" />
+          <img
+            src={blog.thumbnail}
+            className="w-full h-auto max-h-[400px] object-cover rounded-md my-6"
+            alt="Blog Thumbnail"
+          />
         )}
 
         <div
